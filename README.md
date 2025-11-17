@@ -334,16 +334,14 @@ Abra um Pull Request
 Este projeto foi desenvolvido para fins acadêmicos como trabalho da disciplina de Desenvolvimento Rápido em Python.
 
 👤 Autor
-Seu Nome
+Matheus Oliveira
 
-GitHub: @seu-usuario
+GitHub:matheusol1veir4
 
-Email: seu.email@exemplo.com
+Email: matheus.colvr@gmail.com
 
 📞 Suporte
 Para dúvidas ou problemas:
-
-Abra uma issue
 
 Entre em contato via email
 
