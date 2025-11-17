@@ -1,12 +1,10 @@
 📚 Sistema de Cadastro de Alunos
 text
-   ____          _            _               _         
-  / ___|__ _  __| | __ _ ___| |_ _ __ ___   | |    ___ 
- | |   / _` |/ _` |/ _` / __| __| '__/ _ \  | |   / _ \
- | |__| (_| | (_| | (_| \__ \ |_| | | (_) | | |__|  __/
-  \____\__,_|\__,_|\__,_|___/\__|_|  \___/  |_____\___|
+<div><img width="448" height="110" alt="image" src="https://github.com/user-attachments/assets/4febb8e5-750a-4e78-99e1-fab05a493d29" />
+</div>
                                                         
   Sistema de Gerenciamento Acadêmico com Python
+  
 📋 Sobre o Projeto
 Sistema completo de cadastro e gerenciamento de alunos, disciplinas e notas desenvolvido em Python, seguindo princípios SOLID e Clean Code. O projeto implementa uma arquitetura em camadas (MVC adaptado) com API REST (FastAPI) e interface gráfica desktop (Tkinter).
 
@@ -26,38 +24,9 @@ Sistema completo de cadastro e gerenciamento de alunos, disciplinas e notas dese
 🏗️ Arquitetura do Sistema
 Estrutura de Diretórios
 text
-alunos.sistema/
-├── student_crud_api/              # Backend - API REST
-│   ├── app/
-│   │   ├── config/                # Configurações e database
-│   │   │   ├── __init__.py
-│   │   │   ├── configuracoes.py   # Settings da aplicação
-│   │   │   └── database.py        # Configuração SQLAlchemy
-│   │   ├── model/                 # Modelos ORM (Entidades)
-│   │   │   ├── __init__.py
-│   │   │   ├── aluno.py          # Entidade Aluno
-│   │   │   ├── disciplina.py     # Entidade Disciplina
-│   │   │   └── nota.py           # Entidade Nota
-│   │   ├── service/               # Regras de negócio
-│   │   │   ├── __init__.py
-│   │   │   ├── aluno_service.py
-│   │   │   ├── disciplina_service.py
-│   │   │   └── nota_service.py
-│   │   └── controller/            # Endpoints REST
-│   │       ├── __init__.py
-│   │       ├── aluno_controller.py
-│   │       ├── disciplina_controller.py
-│   │       └── nota_controller.py
-│   ├── main.py                    # Entry point da API
-│   ├── .env                       # Variáveis de ambiente
-│   ├── requirements.txt           # Dependências Python
-│   └── .gitignore
-│
-└── frontend/                      # Frontend - Interface Tkinter
-    ├── main_window.py             # Janela principal
-    ├── gerenciador_alunos.py      # Tela de gerenciamento de alunos
-    ├── gerenciador_disciplinas.py # Tela de gerenciamento de disciplinas
-    └── gerenciador_notas.py       # Tela de gerenciamento de notas
+<div><img width="592" height="611" alt="image" src="https://github.com/user-attachments/assets/fcb90ebd-bd4c-47ed-a2aa-c5d4fd9daa03" /></div>
+
+
 Padrões de Arquitetura
 Model-View-Controller (MVC) adaptado para FastAPI
 
@@ -67,29 +36,31 @@ Dependency Injection: gerenciamento de sessão do banco de dados
 
 Repository Pattern: abstração de acesso a dados nos services
 
-🚀 Tecnologias Utilizadas
-Backend
-Python 3.12+
+🚀 **Tecnologias Utilizadas**
+**Backend:**
 
-FastAPI - Framework web moderno e rápido
+**Python 3.12+**
 
-SQLAlchemy 2.0 - ORM para mapeamento objeto-relacional
+**FastAPI** - Framework web moderno e rápido
 
-Pydantic - Validação de dados e schemas
+**SQLAlchemy 2.0** - ORM para mapeamento objeto-relacional
 
-PostgreSQL 15 - Banco de dados relacional
+**Pydantic** - Validação de dados e schemas
 
-Uvicorn - Servidor ASGI
+**PostgreSQL 15** - Banco de dados relacional
 
-Frontend
-Tkinter - Interface gráfica nativa do Python
+**Uvicorn** - Servidor ASGI
 
-Requests - Cliente HTTP para comunicação com a API
+**Frontend:**
 
-DevOps
-Docker - Containerização do PostgreSQL
+**Tkinter** - Interface gráfica nativa do Python
 
-python-dotenv - Gerenciamento de variáveis de ambiente
+**Requests** - Cliente HTTP para comunicação com a API
+
+**DevOps:**
+**Docker** - Containerização do PostgreSQL
+
+**python-dotenv** - Gerenciamento de variáveis de ambiente
 
 ⚙️ Instalação e Configuração
 Pré-requisitos
@@ -251,17 +222,8 @@ Exportação de histórico
 🗄️ Modelo de Dados
 Diagrama Entidade-Relacionamento
 text
-┌──────────────────┐       ┌────────────────────┐       ┌──────────────────┐
-│     ALUNOS       │       │       NOTAS        │       │   DISCIPLINAS    │
-├──────────────────┤       ├────────────────────┤       ├──────────────────┤
-│ id (PK)          │◄──────│ aluno_id (FK)      │       │ id (PK)          │
-│ nome             │       │ disciplina_id (FK) │──────►│ codigo (UNIQUE)  │
-│ email (UNIQUE)   │       │ valor              │       │ nome             │
-│ matricula(UNIQUE)│       │ semestre           │       │ carga_horaria    │
-│ data_nascimento  │       │ criado_em          │       │ criado_em        │
-│ criado_em        │       │ atualizado_em      │       │ atualizado_em    │
-│ atualizado_em    │       └────────────────────┘       └──────────────────┘
-└──────────────────┘
+<div><img width="579" height="220" alt="image" src="https://github.com/user-attachments/assets/628bca82-df55-467c-9469-dc74aee284de" /></div>
+
 📦 Dependências do Projeto
 text
 fastapi==0.104.1
