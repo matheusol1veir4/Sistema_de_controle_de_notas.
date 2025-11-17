@@ -9,6 +9,7 @@ Segue os princípios SOLID:
 """
 
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
 from typing import List, Optional
@@ -44,7 +45,8 @@ class AlunoService:
         Returns:
             List[AlunoModel]: Lista de alunos encontrados.
         """
-        return self.sessao.query(AlunoModel).offset(pular).limit(limite).all()
+        stmt = select(AlunoModel).offset(pular).limit(limite)
+        return list(self.sessao.scalars(stmt).all())
     
     def buscar_por_id(self, aluno_id: uuid.UUID) -> AlunoModel:
         """
@@ -59,7 +61,8 @@ class AlunoService:
         Raises:
             HTTPException: Se o aluno não for encontrado.
         """
-        aluno = self.sessao.query(AlunoModel).filter(AlunoModel.id == aluno_id).first()
+        stmt = select(AlunoModel).where(AlunoModel.id == aluno_id)
+        aluno = self.sessao.scalar(stmt)
         if not aluno:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -77,7 +80,8 @@ class AlunoService:
         Returns:
             Optional[AlunoModel]: Aluno encontrado ou None.
         """
-        return self.sessao.query(AlunoModel).filter(AlunoModel.matricula == matricula).first()
+        stmt = select(AlunoModel).where(AlunoModel.matricula == matricula)
+        return self.sessao.scalar(stmt)
     
     def buscar_por_email(self, email: str) -> Optional[AlunoModel]:
         """
@@ -89,7 +93,8 @@ class AlunoService:
         Returns:
             Optional[AlunoModel]: Aluno encontrado ou None.
         """
-        return self.sessao.query(AlunoModel).filter(AlunoModel.email == email).first()
+        stmt = select(AlunoModel).where(AlunoModel.email == email)
+        return self.sessao.scalar(stmt)
     
     def criar(self, dados_aluno: AlunoCriar) -> AlunoModel:
         """

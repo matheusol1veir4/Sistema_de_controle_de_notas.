@@ -6,8 +6,8 @@ Segue os princípios SOLID: SRP, OCP e DIP.
 """
 
 from sqlalchemy.orm import Session
+from sqlalchemy import select, and_
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import and_
 from fastapi import HTTPException, status
 from typing import List
 import uuid
@@ -46,7 +46,8 @@ class NotaService:
         Returns:
             List[NotaModel]: Lista de notas encontradas.
         """
-        return self.sessao.query(NotaModel).offset(pular).limit(limite).all()
+        stmt = select(NotaModel).offset(pular).limit(limite)
+        return list(self.sessao.scalars(stmt).all())
     
     def buscar_por_id(self, nota_id: uuid.UUID) -> NotaModel:
         """
@@ -61,7 +62,8 @@ class NotaService:
         Raises:
             HTTPException: Se a nota não for encontrada.
         """
-        nota = self.sessao.query(NotaModel).filter(NotaModel.id == nota_id).first()
+        stmt = select(NotaModel).where(NotaModel.id == nota_id)
+        nota = self.sessao.scalar(stmt)
         if not nota:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -81,9 +83,8 @@ class NotaService:
         """
         self.servico_aluno.buscar_por_id(aluno_id)
         
-        return self.sessao.query(NotaModel).filter(
-            NotaModel.aluno_id == aluno_id
-        ).all()
+        stmt = select(NotaModel).where(NotaModel.aluno_id == aluno_id)
+        return list(self.sessao.scalars(stmt).all())
     
     def listar_por_disciplina(self, disciplina_id: uuid.UUID) -> List[NotaModel]:
         """
@@ -97,9 +98,8 @@ class NotaService:
         """
         self.servico_disciplina.buscar_por_id(disciplina_id)
         
-        return self.sessao.query(NotaModel).filter(
-            NotaModel.disciplina_id == disciplina_id
-        ).all()
+        stmt = select(NotaModel).where(NotaModel.disciplina_id == disciplina_id)
+        return list(self.sessao.scalars(stmt).all())
     
     def verificar_nota_duplicada(self, aluno_id: uuid.UUID, disciplina_id: uuid.UUID, 
                                  semestre: str, nota_id: uuid.UUID = None) -> bool:
@@ -115,7 +115,7 @@ class NotaService:
         Returns:
             bool: True se existe nota duplicada, False caso contrário.
         """
-        query = self.sessao.query(NotaModel).filter(
+        stmt = select(NotaModel).where(
             and_(
                 NotaModel.aluno_id == aluno_id,
                 NotaModel.disciplina_id == disciplina_id,
@@ -124,9 +124,9 @@ class NotaService:
         )
         
         if nota_id:
-            query = query.filter(NotaModel.id != nota_id)
+            stmt = stmt.where(NotaModel.id != nota_id)
         
-        return query.first() is not None
+        return self.sessao.scalar(stmt) is not None
     
     def criar(self, dados_nota: NotaCriar) -> NotaModel:
         """

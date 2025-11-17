@@ -6,6 +6,7 @@ Segue os princípios SOLID: SRP, OCP e DIP.
 """
 
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
 from typing import List, Optional
@@ -41,7 +42,8 @@ class DisciplinaService:
         Returns:
             List[DisciplinaModel]: Lista de disciplinas encontradas.
         """
-        return self.sessao.query(DisciplinaModel).offset(pular).limit(limite).all()
+        stmt = select(DisciplinaModel).offset(pular).limit(limite)
+        return list(self.sessao.scalars(stmt).all())
     
     def buscar_por_id(self, disciplina_id: uuid.UUID) -> DisciplinaModel:
         """
@@ -56,9 +58,8 @@ class DisciplinaService:
         Raises:
             HTTPException: Se a disciplina não for encontrada.
         """
-        disciplina = self.sessao.query(DisciplinaModel).filter(
-            DisciplinaModel.id == disciplina_id
-        ).first()
+        stmt = select(DisciplinaModel).where(DisciplinaModel.id == disciplina_id)
+        disciplina = self.sessao.scalar(stmt)
         
         if not disciplina:
             raise HTTPException(
@@ -77,9 +78,8 @@ class DisciplinaService:
         Returns:
             Optional[DisciplinaModel]: Disciplina encontrada ou None.
         """
-        return self.sessao.query(DisciplinaModel).filter(
-            DisciplinaModel.codigo == codigo
-        ).first()
+        stmt = select(DisciplinaModel).where(DisciplinaModel.codigo == codigo)
+        return self.sessao.scalar(stmt)
     
     def criar(self, dados_disciplina: DisciplinaCriar) -> DisciplinaModel:
         """
